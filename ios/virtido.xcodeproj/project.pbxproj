@@ -41,6 +41,7 @@
 		5709B34CF0A7D63546082F79 /* Pods-virtido.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-virtido.release.xcconfig"; path = "Target Support Files/Pods-virtido/Pods-virtido.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-virtido-virtidoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-virtido-virtidoTests.debug.xcconfig"; path = "Target Support Files/Pods-virtido-virtidoTests/Pods-virtido-virtidoTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5DCACB8F33CDC322A6C60F78 /* libPods-virtido.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-virtido.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		795BD3612BCE9A2900810BC5 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = virtido/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-virtido-virtidoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-virtido-virtidoTests.release.xcconfig"; path = "Target Support Files/Pods-virtido-virtidoTests/Pods-virtido-virtidoTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -86,6 +87,7 @@
 		13B07FAE1A68108700A75B9A /* virtido */ = {
 			isa = PBXGroup;
 			children = (
+				795BD3602BCE9A0000810BC5 /* Fonts */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -104,6 +106,14 @@
 				19F6CBCC0A4E27FBF8BF4A61 /* libPods-virtido-virtidoTests.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		795BD3602BCE9A0000810BC5 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				795BD3612BCE9A2900810BC5 /* MaterialCommunityIcons.ttf */,
+			);
+			name = Fonts;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {

@@ -1,118 +1,83 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import React, {useEffect, useState} from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {StyleSheet, View} from 'react-native';
+import {MyOrder} from './src/screens/MyOrder.tsx';
+import {AllOrders} from './src/screens/AllOrders.tsx';
+import {fetchOrders} from './src/API/requests.ts';
+import {ActivityIndicator, Button, Icon, Text} from 'react-native-paper';
+import {Response} from './src/types/response.ts';
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+const App = (): React.JSX.Element => {
+  const Tab = createBottomTabNavigator();
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+  const [data, setData] = useState<Response | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+  useEffect(() => {
+    fetchOrders(setIsLoading, setError).then(fetchedData => {
+      if (fetchedData) {
+        setData(fetchedData);
+        setIsLoading(true);
+      }
+    });
+  }, []);
 
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
+  if (error) {
+    return (
+      <>
+        <Text>Data loading failed.</Text>
+        <Button
+          onPress={() =>
+            fetchOrders(setIsLoading, setError).then(fetchedData => {
+              if (fetchedData) {
+                setData(fetchedData);
+                setIsLoading(true);
+              }
+            })
+          }>
+          Try again
+        </Button>
+      </>
+    );
+  }
+
+  return isLoading && !data ? (
+    <View style={styles.spinnerContainer}>
+      <ActivityIndicator />
     </View>
+  ) : (
+    <NavigationContainer>
+      <Tab.Navigator>
+        <Tab.Screen
+          name="My order"
+          children={props => <MyOrder dataProp={data!} {...props} />}
+          options={{
+            tabBarLabelStyle: {fontSize: 16, color: 'black'},
+            tabBarLabel: 'My order',
+            tabBarIcon: () => <Icon source="account" size={24} />,
+          }}
+        />
+        <Tab.Screen
+          name="All orders"
+          children={props => <AllOrders dataProp={data!} {...props} />}
+          options={{
+            tabBarLabelStyle: {fontSize: 16, color: 'black'},
+            tabBarLabel: 'All orders',
+            tabBarIcon: () => <Icon source="account-multiple" size={24} />,
+          }}
+        />
+      </Tab.Navigator>
+    </NavigationContainer>
   );
-}
-
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-}
+};
+export default App;
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
+  spinnerContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
-
-export default App;
